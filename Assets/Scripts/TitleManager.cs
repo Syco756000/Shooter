@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//allows the use of the Scene Management system and functions
+using UnityEngine.UI;
+// Allows the use of the Scene Management system and functions
 using UnityEngine.SceneManagement;
+// This allows the either or statement in the Exit() class
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -11,11 +13,11 @@ using UnityEditor;
 public class TitleManager : MonoBehaviour
 {
     // Allow for your Initials to be input into the text box
-    
+    Text inputField;
     // Start is called before the first frame update
     void Start()
     {
-        
+        PlayerPrefs.SetString("PlayerName", inputField.text);
     }
 
     // Update is called once per frame
@@ -34,4 +36,9 @@ public class TitleManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+    public void InputYourName()
+    {
+        
+    }
+
 }
