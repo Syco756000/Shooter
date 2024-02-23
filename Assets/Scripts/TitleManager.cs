@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 // Allows the use of the Scene Management system and functions
 using UnityEngine.SceneManagement;
 // This allows the either or statement in the Exit() class
@@ -13,7 +14,7 @@ using UnityEditor;
 public class TitleManager : MonoBehaviour
 {
     // Allow for your Initials to be input into the text box
-    Text inputField;
+    public TMP_InputField inputField;
     // Start is called before the first frame update
     void Start()
     {
