@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 // Allows the use of the Scene Management system and functions
 using UnityEngine.SceneManagement;
@@ -10,20 +9,29 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
-
-public class TitleManager : MonoBehaviour
+public class Scene1 : MonoBehaviour
 {
-    // Allow for your Initials to be input into the text box
+ public static Scene1 scene1;
     public TMP_InputField inputField;
-    // Start is called before the first frame update
-    void Start()
+
+    public string player_name;
+
+    private void Awake()
     {
-        PlayerPrefs.SetString("PlayerName", inputField.text);
+        if (scene1 == null)
+        {
+            scene1 = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
     public void StartNew()
     {
+        player_name = inputField.text;
         //SceneManager handles everything related to loading and unloading scenes.
         SceneManager.LoadScene(1);
     }
@@ -37,9 +45,4 @@ public class TitleManager : MonoBehaviour
         Application.Quit();
 #endif
     }
-    public void InputYourName()
-    {
-        
-    }
-
 }
