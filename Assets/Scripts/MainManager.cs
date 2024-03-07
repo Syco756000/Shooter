@@ -11,21 +11,17 @@ public class MainManager : MonoBehaviour
     public int LineCount = 6;
     public Rigidbody Ball;
 
-    public Text ScoreText;
+    public TextMeshProUGUI ScoreText;
     public GameObject GameOverText;
 
     private bool m_Started = false;
     private int m_Points;
 
     private bool m_GameOver = false;
-    public TextMeshProUGUI HighScoreText;
-    public float HighScore;
-    public float Score;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
 

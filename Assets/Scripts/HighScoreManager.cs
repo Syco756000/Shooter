@@ -7,16 +7,15 @@ using UnityEngine.UI;
 public class HighScoreManager : MonoBehaviour
 {
     public TextMeshProUGUI HighScoreText;
-    public Text ScoreText;
+    public TextMeshProUGUI ScoreText;
 
     public float HighScore;
     public float Score;
 
-    private MainManager Ball;
+    public GameObject ball;
     // Start is called before the first frame update
     void Start()
     {
-        Ball = FindObjectOfType<MainManager>();
 
         if (PlayerPrefs.HasKey("HighScore"))
         {
@@ -26,20 +25,20 @@ public class HighScoreManager : MonoBehaviour
         {
             HighScore = 0;
         }
+        HighScoreText.text = $"High Score: {HighScore}";
+        HighScoreText.text = HighScore.ToString();
+        ScoreText.text = Score.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        HighScoreText.text = HighScore.ToString();
-        ScoreText.text = Score.ToString();
-
-        if (Ball == null)
+        if (ball == null)
         {
-            GameEnd();
+            SaveHighScore();
         }
     }
-    public void GameEnd()
+    public void SaveHighScore()
     {
         if (Score > PlayerPrefs.GetFloat("HighScore"))
         {
