@@ -25,7 +25,7 @@ public class HighScoreManager : MonoBehaviour
         {
             HighScore = 0;
         }
-        HighScoreText.text = $"High Score: {HighScore}";
+        HighScoreText.text = $"High Score : {HighScore}";
         HighScoreText.text = HighScore.ToString();
         ScoreText.text = Score.ToString();
     }

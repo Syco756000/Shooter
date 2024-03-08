@@ -254,7 +254,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -32, y: 199}
+  m_AnchoredPosition: {x: 15, y: 199}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &97436041
@@ -1082,7 +1082,8 @@ MonoBehaviour:
   HighScoreText: {fileID: 2096621843}
   ScoreText: {fileID: 19394689}
   HighScore: 0
-  m_Score: 0
+  Score: 0
+  ball: {fileID: 177912857}
 --- !u!4 &941135611
 Transform:
   m_ObjectHideFlags: 0
