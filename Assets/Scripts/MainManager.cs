@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 using UnityEngine.UI;
 using TMPro;
 
 public class MainManager : MonoBehaviour
 {
+    public string NewHighScore;
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
 
     public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI HighScore;
     public GameObject GameOverText;
 
     private bool m_Started = false;
     private int m_Points;
+    private int m_HighScore;
 
     private bool m_GameOver = false;
 
@@ -36,10 +40,12 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        LoadFromJson();
     }
 
     private void Update()
     {
+        
         if (!m_Started)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -60,7 +66,7 @@ public class MainManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
-
+        HighScoreCounter();
     }
 
     void AddPoint(int point)
@@ -71,8 +77,41 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        SaveToJson();
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+    public void SaveToJson()
+    {
+        MainManager data = new MainManager();
+        data.NewHighScore = HighScore.text;
+
+        string json = JsonUtility.ToJson(data, true);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadFromJson()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            MainManager data = JsonUtility.FromJson<MainManager>(json);
+            HighScore.text = data.NewHighScore;
+        }
+    }
+    public void HighScoreCounter()
+    {
+        if (m_HighScore <= m_Points)
+        {
+            NewHighScore = ScoreText.text;
+            HighScore.text = ScoreText.text;
+        }
+        else
+        {
+            HighScore.text = NewHighScore;
+        }
     }
 }
    
