@@ -40,7 +40,6 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
-        LoadFromJson();
     }
 
     private void Update()
@@ -58,6 +57,7 @@ public class MainManager : MonoBehaviour
                 Ball.transform.SetParent(null);
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
             }
+            
         }
         else if (m_GameOver)
         {
@@ -65,32 +65,55 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+            //When game over ESC key will take you back to main screen
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ReturnToMenu();
+            }
         }
-        HighScoreCounter();
     }
 
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"Score: {m_Points}";
+        //display m_HighScore Int as the High Score text
+        HighScore.text = $"High Score: {m_Points}";
+
+        //Call HighScoreCounter function whenever a point is scored
+        HighScoreCounter();
+
+        //Update and save Json data whenever a point is scored
+        SaveToJson();
     }
 
     public void GameOver()
     {
-        SaveToJson();
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
+
+
+
+    //New code added in an attempt to create data persistence between sessions
+    [System.Serializable]
+    class SaveData
+    {
+        public int m_HighScore;
+    }
+
+    //Save High Score data in the Json
     public void SaveToJson()
     {
         MainManager data = new MainManager();
         data.NewHighScore = HighScore.text;
 
-        string json = JsonUtility.ToJson(data, true);
+        string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
 
+    //Load data saved for the High Score
     public void LoadFromJson()
     {
         string path = Application.persistentDataPath + "/savefile.json";
@@ -101,17 +124,26 @@ public class MainManager : MonoBehaviour
             HighScore.text = data.NewHighScore;
         }
     }
+
+    //Force Unity to check to see if the High Score is higher than Score before changing
     public void HighScoreCounter()
     {
         if (m_HighScore <= m_Points)
         {
-            NewHighScore = ScoreText.text;
-            HighScore.text = ScoreText.text;
+            //If current Score is equal to or higher than current HighScore, match both to Score
+            m_HighScore = m_Points;
         }
         else
         {
-            HighScore.text = NewHighScore;
+            //If Current Score is below saved High Score, load and display saved high score
+            LoadFromJson();
         }
+    }
+
+    //End game and return to main screen
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }
    
